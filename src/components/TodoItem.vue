@@ -5,6 +5,7 @@
             {{todo.title}}
             <button @click="$emit('del-todo', todo.id)" class="del">x</button>
         </p>
+
     </div>
 </template>
 
@@ -15,7 +16,7 @@ export default {
     methods: {
         markComplete() {
             this.todo.completed = !this.todo.completed
-        }
+        },
     }
 }
 </script>

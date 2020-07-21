@@ -11,15 +11,35 @@ const routes = [
     component: Home
   },
   {
-    path: '/about',
-    name: 'about',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/posts',
+    name: 'posts',
+    component: () => import('../views/Posts.vue')
   },
   {
-    path: '/status',
-    name: 'status',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Status.vue')
-  }
+    path: '/register',
+    name: 'register',
+    component: () => import('../views/Register.vue')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/Login.vue')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/Login.vue')
+  },
+  {
+    path: '/newpost',
+    name: 'newpost',
+    component: () => import('../views/NewPost.vue')
+  },
+    {
+    path: '/myinfo',
+    name: 'myinfo',
+    component: () => import('../views/MyInfo.vue')
+  },
 ]
 
 const router = new VueRouter({

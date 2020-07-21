@@ -4,11 +4,13 @@
             <input type="text" v-model="title" name="title" placeholder="Add Todo...">
             <input type="submit" value="Submit" class="btn">
         </form>
-    </div>    
+    </div>
 </template>
 
 <script>
 // import uuid from 'uuid';
+import axios from 'axios';
+
 export default {
     name: "AddTodo",
     data() {
@@ -27,7 +29,7 @@ export default {
             this.$emit('add-todo', newTodo);
 
             this.title = '';
-        }
+        },
     }
 }
 </script>
