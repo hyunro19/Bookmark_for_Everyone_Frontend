@@ -50,6 +50,7 @@ export default {
           userUpdateRequestDto
           )
           .then(res => {
+            console.log('updateName', res)
             alert('회원 정보 변경 완료')
           })
           .catch(err => alert(err));
@@ -64,6 +65,7 @@ export default {
           userUpdateRequestDto
           )
           .then(res => {
+            console.log('updatePassword', res)
             alert('회원 정보 변경 완료')
           })
           .catch(err => alert(err));

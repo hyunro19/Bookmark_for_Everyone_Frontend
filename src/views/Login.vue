@@ -19,16 +19,19 @@ import router from '../router/index.js'
 export default {
     data() {
         return {
-            name: '',
             email: '',
             password: '',
-            password_confirm: '',
-            jwt_token: '',
         }
     },
     methods: {
       login(e) {
         e.preventDefault();
+        if(this.email==null || this.email=='') {
+          alert('이메일을 입력해주세요.')
+          return
+        } else if (this.password==null || this.password=='') {
+          alert('비밀번호를 입력해주세요.')
+        }
         const UserLoginRequestDto = {
           email: this.email,
           password: this.password,
@@ -38,12 +41,17 @@ export default {
           )
           .then(res => {
             console.log('res', res)
-            var payload = {
-              jwt_token : res.headers.jwt_token,
-              user : res.data.data
-            }
+            if(res.data.logged) {
+              var payload = {
+              authorization : res.headers.authorization,
+              user : {email:res.data.email, name:res.data.name}
+              }
             store.commit('login', payload)
+            console.log('login succeed', store.getters.authorization)
             router.push('/')
+            } else {
+              alert('이메일 또는 비밀번호가 틀렸습니다.')
+            }
           })
           .catch(err => alert(err));
         },

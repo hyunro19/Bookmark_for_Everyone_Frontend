@@ -1,16 +1,15 @@
 <template>
     <header class="header">
-        <h1><router-link to="/">모두의 북마크</router-link></h1>
-        <div v-if="loggedIn">
+        <div v-if="loggedIn" class="text-right">
             {{userName}} 님
-            <router-link to="/newpost">새 북마크</router-link> |
             <router-link to="/myinfo">내 정보</router-link> |
             <a href="#" @click='logout'>로그아웃</a>
         </div>
-        <div v-else>
+        <div v-else class="text-right">
             <router-link to="/register">회원가입</router-link> |
             <router-link to="/login">로그인</router-link>
         </div>
+        <h1><router-link to="/">모두의 북마크</router-link></h1>
         <div id="mid-nav">
             <router-link to="/posts">최신 글</router-link> |
             <span>주제별</span>
@@ -49,7 +48,7 @@ export default {
     name: "Header",
     computed: {
       loggedIn() {
-        if (store.state.jwt_token == null) return false
+        if (store.state.authorization == null) return false
         return true
       },
       userName() {

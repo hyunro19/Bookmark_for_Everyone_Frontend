@@ -9,25 +9,26 @@ const resourceHost = 'http://localhost:3000'
 // http://jeonghwan-kim.github.io/2018/03/26/vue-authentication.html
 export default new Vuex.Store({
   state: {
-    jwt_token: null,
+    authorization: null,
     user: null,
   },
   getters: {
-    jwtToken(state) {
-      return state.jwt_token
+    authorization(state) {
+      return state.authorization
     },
   },
   mutations: {
     login(state, payload) {
       console.log('mutations before token', payload)
-      state.jwt_token = payload.jwt_token
-      state.user = payload.user
-      console.log('mutations after token', state.jwt_token)
+      this.state.authorization = payload.authorization
+      this.state.user = payload.user
+      console.log('mutations after token', state.authorization)
+      axios.defaults.headers.common['Authorization'] = this.state.authorization;
     },
     logout(state) {
-      state.jwt_token = null
+      state.authorization = null
       state.user = null
-      alert('mutations logout token', jwt_token)
+      alert('mutations logout token', state.authorization)
     }
   },
   actions: { // 비동기, 로그인은 동기여야 하므로 사용안함, 나중에 쓰기

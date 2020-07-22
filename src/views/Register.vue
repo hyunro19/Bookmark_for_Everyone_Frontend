@@ -3,10 +3,14 @@
     <h1>회원가입</h1>
     <p>
       <form @submit="register">
-        이메일(ID) <input name="email" type="email" v-model="email" placeholder="이메일"><br>
-        비밀번호 <input name="password" type="password" v-model="password" placeholder="비밀번호"><br>
-        비밀번호 확인<input name="password_confirm" type="password" v-model="password_confirm" placeholder="비밀번호 확인"><br>
-        닉네임 <input name="name" type="text" v-model="name" placeholder="닉네임"><br>
+        이메일(ID) <input name="email" type="email" v-model="email" placeholder="이메일">
+        <button @click="checkEmailExists">이메일 중복 확인</button><br><br>
+        닉네임 <input name="name" type="text" v-model="name" placeholder="닉네임">
+        <button @click="checkNameExists">닉네임 중복 확인</button><br><br>
+        비밀번호 <input @keyup="checkPasswordAvailability" name="password" type="password" v-model="password" placeholder="비밀번호">
+        <span>{{password_availability_message}}</span><br><br>
+        비밀번호 확인<input @keyup="checkPasswordConfirmity" name="password_confirm" type="password" v-model="password_confirm" placeholder="비밀번호 확인">
+        <span>{{password_confirm_message}}</span><br><br>
         <input type="submit" value="Register" class="btn-primary btn">
       </form>
     </p>
@@ -26,6 +30,8 @@ export default {
             email: '',
             password: '',
             password_confirm: '',
+            password_availability_message: '',
+            password_confirm_message: '',
         }
     },
     methods: {
@@ -41,7 +47,7 @@ export default {
           )
           .then(res => {
             var payload = {
-              jwt_token : res.headers.jwt_token,
+              authorization : res.headers.authorization,
               user : res.data.data
             }
             store.commit('login', payload)
@@ -49,6 +55,42 @@ export default {
           })
           .catch(err => alert(err));
         },
+        checkEmailExists(e) {
+          e.preventDefault();
+          axios.get('http://localhost:8080/api/v1/user?email='+this.email)
+          .then(res => {
+            if(res.data==false) {
+              alert('사용할 수 있는 이메일입니다.')
+            } else {
+              alert('사용할 수 없는 이메일입니다.')
+            }
+            console.log('res', res)
+          })
+          .catch(err => alert(err));
+        },
+        checkNameExists(e) {
+          e.preventDefault();
+          axios.get('http://localhost:8080/api/v1/user?name='+this.name)
+          .then(res => {
+            if(res.data==false) {
+              alert('사용할 수 있는 닉네임입니다.')
+            } else {
+              alert('사용할 수 없는 닉네임입니다.')
+            }
+            console.log('res', res)
+          })
+          .catch(err => alert(err));
+        },
+        checkPasswordAvailability() {
+          this.password_availability_message = '사용가능'
+        },
+        checkPasswordConfirmity() {
+          if (this.password == this.password_confirm) {
+            this.password_confirm_message = '비밀번호 일치'
+          } else {
+            this.password_confirm_message = '비밀번호 불일치'
+          }
+        }
     },
     store,
     router,

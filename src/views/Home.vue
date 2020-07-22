@@ -30,19 +30,19 @@ export default {
     },
     addTodo(newTodo) {
       const { title, completed } = newTodo;
-      axios.post('https://jsonplaceholder.typicode.com/todos', { 
+      axios.post('https://jsonplaceholder.typicode.com/todos', {
         title,
         completed
         })
           .then(res => this.todos = [...this.todos, res.data])
           .catch(err => alert(err));
-      
+
     },
   },
   created() {
     axios.get('https://jsonplaceholder.typicode.com/todos?_limit=5')
       .then(res => this.todos = res.data)
-      .catach(err => alert(err));
+      .catch(err => alert(err));
   }
 }
 </script>
@@ -69,4 +69,4 @@ export default {
   .btn:hover {
     background: #666;
   }
-</style>  
+</style>
