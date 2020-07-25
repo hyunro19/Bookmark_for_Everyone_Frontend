@@ -20,6 +20,7 @@
             <router-link to="/posts">음악·미술</router-link>
             <router-link to="/posts">기타</router-link> |
             <router-link to="/posts">내가 쓴 글</router-link>
+            <router-link to="/newpost">새 글 쓰기</router-link>
         </div>
         <!-- <p>
           <form @submit="signUp">

@@ -1,6 +1,7 @@
 <template>
   <div class="posts">
     <h1>Posts</h1>
+    <div v-for="(post, index) in postsListResponseDto" v-bind:key="index" v-bind:value="post">{{post}}</div>
   </div>
 </template>
 
@@ -13,7 +14,7 @@ import router from '../router/index.js'
 export default {
   data () {
     return {
-      title: ''
+      postsListResponseDto : [],
     }
   },
   beforeCreate () {
@@ -21,6 +22,7 @@ export default {
     axios.get('http://localhost:8080/api/v1/posts')
       .then(res => {
           console.log(res)
+          this.postsListResponseDto = res.data
         }
       )
       .catch(err => alert(err));

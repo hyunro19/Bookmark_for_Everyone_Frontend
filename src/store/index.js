@@ -16,6 +16,9 @@ export default new Vuex.Store({
     authorization(state) {
       return state.authorization
     },
+    user(state) {
+      return state.user
+    }
   },
   mutations: {
     login(state, payload) {

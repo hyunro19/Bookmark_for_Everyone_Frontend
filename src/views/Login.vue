@@ -44,7 +44,7 @@ export default {
             if(res.data.logged) {
               var payload = {
               authorization : res.headers.authorization,
-              user : {email:res.data.email, name:res.data.name}
+              user : {email:res.data.email, name:res.data.name, user_id:res.data.user_id}
               }
             store.commit('login', payload)
             console.log('login succeed', store.getters.authorization)
