@@ -21,18 +21,21 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    login(state, payload) {
-      console.log('mutations before token', payload)
-      this.state.authorization = payload.authorization
-      this.state.user = payload.user
-      console.log('mutations after token', state.authorization)
-      axios.defaults.headers.common['Authorization'] = this.state.authorization;
+    auth(state, payload) {
+      this.state.authorization = payload
+      localStorage.setItem("jwt_token", this.state.authorization)
+      axios.defaults.headers.common['authorization'] = this.state.authorization;
+    },
+    userInfo(state, payload) {
+      this.state.user = payload
     },
     logout(state) {
       state.authorization = null
       state.user = null
+      localStorage.removeItem("jwt_token")
       alert('mutations logout token', state.authorization)
-    }
+      axios.defaults.headers.common['authorization'] = null;
+    },
   },
   actions: { // 비동기, 로그인은 동기여야 하므로 사용안함, 나중에 쓰기
     // login ({commit}, {email, password}) {

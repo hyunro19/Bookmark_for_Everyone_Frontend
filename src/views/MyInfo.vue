@@ -33,10 +33,10 @@ export default {
     },
     computed: {
       email() {
-        return store.state.user.email
+        return store.getters.user.email
       },
       name() {
-        return store.state.user.name
+        return store.getters.user.user_name
       }
     },
     methods: {

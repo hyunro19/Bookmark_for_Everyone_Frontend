@@ -35,6 +35,20 @@ export default {
         }
     },
     methods: {
+      getUserInfo() {
+        axios.get('http://localhost:8080/api/v1/user')
+        .then(res => {
+          console.log('getUserInfo at Login.vue, get response : ', res)
+          var user = {
+            user_id : res.data.user_id,
+            user_name : res.data.user_name,
+            email : res.data.email,
+            }
+          store.commit('userInfo', user)
+          if (this.$route.path !== "/") this.$router.push("/")
+          })
+        .catch(err => alert(err));
+      },
       register(e) {
         e.preventDefault();
         const userSaveRequestDto = {
@@ -46,12 +60,17 @@ export default {
           userSaveRequestDto
           )
           .then(res => {
-            var payload = {
-              authorization : res.headers.authorization,
-              user : res.data.data
+            console.log('register response', res)
+            var token = res.headers.authorization
+            if(res.data.logged) {
+              store.commit('auth', token)
+              axios.defaults.headers.common['authorization'] = token;
+              this.getUserInfo()
+              alert("회원가입이 완료되었습니다.")
+            } else {
+              alert("회원가입이 실패하였습니다.\n다시 시도해주세요.")
             }
-            store.commit('login', payload)
-            router.push('/')
+            if (this.$router.path !== "/") this.$router.push("/")
           })
           .catch(err => alert(err));
         },

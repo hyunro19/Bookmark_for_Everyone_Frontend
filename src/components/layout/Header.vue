@@ -19,7 +19,7 @@
             <router-link to="/posts">문화·독서</router-link>
             <router-link to="/posts">음악·미술</router-link>
             <router-link to="/posts">기타</router-link> |
-            <router-link to="/posts">내가 쓴 글</router-link>
+            <router-link to="/posts">내가 쓴 글</router-link> |
             <router-link to="/newpost">새 글 쓰기</router-link>
         </div>
         <!-- <p>
@@ -47,22 +47,53 @@ import router from '../../router/index.js'
 
 export default {
     name: "Header",
+    data () {
+      return {
+
+      }
+    },
     computed: {
       loggedIn() {
-        if (store.state.authorization == null) return false
+        if (store.getters.authorization == null) return false
         return true
       },
       userName() {
-        if (store.state.user != null) return store.state.user.name
+        if (store.getters.user != null) return store.state.user.user_name
       }
     },
     methods: {
       logout() {
         store.commit('logout')
-        loggedIn = false
-        router.push('/')
+        this.loggedIn = false
+        if (this.$route.path !== "/") this.$router.push("/")
+      },
+      getUserInfo() {
+        axios.get('http://localhost:8080/api/v1/user')
+        .then(res => {
+          console.log('getUserInfo at Header.vue, get response : ', res)
+          var user = {
+            user_id : res.data.user_id,
+            user_name : res.data.user_name,
+            email : res.data.email,
+            }
+          store.commit('userInfo', user)
+          if (this.$route.path !== "/") this.$router.push("/")
+          })
+        .catch(err => alert(err));
       }
     },
+    created() {
+      let token = localStorage.getItem("jwt_token")
+      // console.log('is authorization null?', token)
+      if (token!=null) {
+        store.commit('auth', token)
+        axios.defaults.headers.common['authorization'] = token;
+        this.getUserInfo()
+      }
+    },
+    updated() {
+      console.log('Header.vue updated')
+    }
 }
 </script>
 
