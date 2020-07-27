@@ -11,9 +11,9 @@ const routes = [
     component: Home
   },
   {
-    path: '/posts',
+    path: '/posts/:sort',
     name: 'posts',
-    component: () => import('../views/Posts.vue')
+    component: () => import('../views/Posts.vue'),
   },
   {
     path: '/register',
@@ -38,6 +38,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
+  mode: 'history',
   routes
 })
 

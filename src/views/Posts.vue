@@ -1,5 +1,6 @@
 <template>
   <div class="posts">
+    <h3> {{$route.params.sort}} 입니다 </h3>
     <h1>Posts</h1>
     <div v-for="(post, index) in postsListResponseDto" v-bind:key="index" v-bind:value="post">{{post}}</div>
   </div>
@@ -17,9 +18,9 @@ export default {
       postsListResponseDto : [],
     }
   },
-  beforeCreate () {
-    console.log('beforeCreate', store.getters.authorization)
-    axios.get('http://localhost:8080/api/v1/posts')
+  methods: {
+    loadPosts() {
+    axios.get('http://localhost:8080/api/v1/posts_list/'+this.$route.params.sort)
       .then(res => {
           console.log(res)
           this.postsListResponseDto = res.data
@@ -27,6 +28,17 @@ export default {
       )
       .catch(err => alert(err));
     },
+  },
+  created () {
+    console.log('created')
+    this.loadPosts()
+  },
+  watch: {
+    '$route' () {
+    console.log('watcher')
+      this.loadPosts()
+    }
+  },
   store,
   router,
   }

@@ -11,16 +11,15 @@
         </div>
         <h1><router-link to="/">모두의 북마크</router-link></h1>
         <div id="mid-nav">
-            <router-link to="/posts">최신 글</router-link> |
-            <span>주제별</span>
-            <router-link to="/posts">여행</router-link>
-            <router-link to="/posts">IT</router-link>
-            <router-link to="/posts">직장생활</router-link>
-            <router-link to="/posts">문화·독서</router-link>
-            <router-link to="/posts">음악·미술</router-link>
-            <router-link to="/posts">기타</router-link> |
-            <router-link to="/posts">내가 쓴 글</router-link> |
-            <router-link to="/newpost">새 글 쓰기</router-link>
+            <router-link to="/posts/recent">최신 북마크</router-link> |
+            <router-link to="/posts/my">나의 북마크</router-link> |
+            <router-link to="/newpost">새 북마크 작성</router-link><br>
+            <router-link to="/posts/0">IT</router-link>
+            <router-link to="/posts/1">문화·독서</router-link>
+            <router-link to="/posts/2">음악·미술</router-link>
+            <router-link to="/posts/3">직장생활</router-link>
+            <router-link to="/posts/4">여행</router-link>
+            <router-link to="/posts/5">기타</router-link>
         </div>
         <!-- <p>
           <form @submit="signUp">
