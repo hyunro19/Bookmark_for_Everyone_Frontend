@@ -4,12 +4,12 @@
     <p>
       <form>
         이메일(ID) <input name="email" type="email" v-model="email" placeholder="이메일" readonly><br><br>
-        닉네임 <input name="name_new" type="text" v-model="name_new" placeholder="4-12자의 영문 또는 숫자">
+        기존 비밀번호 <input name="password_old" type="password" v-model="password_old" placeholder="비밀번호"><br><br>
+        닉네임 <input name="name_new" type="text" v-model="name_new" placeholder="4-12자의 영문 또는 숫자"><br>
         <button @click="checkName" @keyup="nameChange">닉네임 중복 확인</button><br><br>
-        기존 비밀번호 <input name="password_old" type="password" v-model="password_old" placeholder="비밀번호"><br>
-        새 비밀번호 <input @keyup="checkPasswordAvailability" name="password_new" type="password" v-model="password_new" placeholder="비밀번호">
+        새 비밀번호 <input @keyup="checkPasswordAvailability" name="password_new" type="password" v-model="password_new" placeholder="비밀번호"><br>
         <span>{{password_new_message}}</span><br><br>
-        새 비밀번호 확인<input @keyup="checkPasswordConfirmity" name="password_new_confirm" type="password" v-model="password_new_confirm" placeholder="비밀번호 확인">
+        새 비밀번호 확인<input @keyup="checkPasswordConfirmity" name="password_new_confirm" type="password" v-model="password_new_confirm" placeholder="비밀번호 확인"><br>
         <span>{{password_new_confirm_message}}</span><br><br>
 
         <button @click='updateName' class="btn-primary btn">닉네임 변경</button>
@@ -69,7 +69,8 @@ export default {
             alert('닉네임이 변경되었습니다.')
           })
           .catch(err => {
-            alert(err)
+            console.log(err)
+            alert('비밀번호가 올바르지 않습니다.')
             });
         },
       updatePassword(e) {
