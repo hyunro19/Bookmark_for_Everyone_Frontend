@@ -1,20 +1,30 @@
 <template>
   <div class="register">
-    <h1>회원가입</h1>
-    <p>
-      <form @submit="register">
-        이메일(ID) <input name="email" type="email" v-model="email" placeholder="example@gmail.com">
-        <button @click="checkEmail" @keyup="emailChange">이메일 중복 확인</button><br><br>
-        닉네임 <input name="name" type="text" v-model="name" placeholder="4-12자의 영문 또는 숫자">
-        <button @click="checkName" @keyup="nameChange">닉네임 중복 확인</button><br><br>
-        비밀번호 <input @keyup="checkPasswordAvailability" name="password" type="password" v-model="password" placeholder="비밀번호">
-        <span>{{password_message}}</span><br><br>
-        비밀번호 확인<input @keyup="checkPasswordConfirmity" name="password_confirm" type="password" v-model="password_confirm" placeholder="비밀번호 확인">
-        <span>{{password_confirm_message}}</span><br><br>
-        <input type="submit" value="Register" class="btn-primary btn">
-      </form>
-    </p>
-    <span>닉네임, 이메일 중복체크, 비밀번호 유효성체크</span>
+    <h3>회원가입</h3><br><br>
+
+    <form @submit="register">
+      <div class="input-wrapper">
+        <div class="label">이메일(ID)</div>
+        <input class="input-text" name="email" type="email" v-model="email" placeholder="example@gmail.com">
+        <button class="btn btn-secondary btn-check-custom" @click="checkEmail" @keyup="emailChange">이메일 중복 확인</button>
+      </div>
+      <div class="input-wrapper">
+        <div class="label">닉네임</div>
+        <input class="input-text" name="name" type="text" v-model="name" placeholder="4-12자의 영문 또는 숫자">
+        <button class="btn btn-secondary btn-check-custom" @click="checkName" @keyup="nameChange">닉네임 중복 확인</button>
+      </div>
+      <div class="input-wrapper">
+        <div class="label">비밀번호</div>
+        <input class="input-text" @keyup="checkPasswordAvailability" name="password" type="password" v-model="password" placeholder="비밀번호">
+        <div class="msg" v-bind:class="[password_availability ? 'text-success' : 'text-danger']">{{password_message}}</div>
+      </div>
+      <div class="input-wrapper">
+        <div class="label">비밀번호 확인</div>
+        <input class="input-text" @keyup="checkPasswordConfirmity" name="password_confirm" type="password" v-model="password_confirm" placeholder="비밀번호 확인">
+        <div class="msg" v-bind:class="[password_confirm_availability ? 'text-success' : 'text-danger']">{{password_confirm_message}}</div>
+      </div>
+      <input type="submit" value="  Register  " class="btn btn-primary btn-register-custom">
+    </form>
   </div>
 </template>
 
@@ -153,16 +163,47 @@ export default {
 </script>
 
 <style scoped>
-    .header {
-        background: #333;
-        color: #fff;
-        text-align: center;
-        padding: 10px;
-    }
-
-    .header a {
-        color: #fff;
-        padding-right: 5px;
-        text-decoration: none;
-    }
+  .register {
+    display: inline-block;
+    max-width: 600px;
+    min-width: 400px;
+    font-family: 'Noto Sans KR', sans-serif;
+    padding: 20px 10px 30px 10px;
+    font-size: 0.9em;
+  }
+  .input-wrapper {
+    display:inline-block;
+    width:500px;
+    margin-bottom: 20px;
+  }
+  .label {
+    float:left;
+    display:inline-block;
+    padding-right: 10px;
+    text-align: right;
+    width: 100px;
+  }
+  .input-text {
+    float:left;
+    margin-right:10px;
+    width:250px;
+  }
+  .msg {
+    display:inline-block;
+    width:500px;
+    text-align:left;
+    font-size: 0.85em;
+    padding-left: 110px;
+    margin-top: -20px;
+  }
+  .msg-warning {
+    font-size: 0.85em;
+    color:rgb(187, 5, 5)
+  }
+  .btn-check-custom {
+    float:left;
+    font-size: 0.9em;
+    margin-top: -1px;
+    padding: 4px 10px 4px 10px;
+  }
 </style>

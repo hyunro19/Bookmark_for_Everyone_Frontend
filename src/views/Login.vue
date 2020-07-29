@@ -1,13 +1,19 @@
 <template>
   <div class="login">
-    <h1>로그인</h1>
-    <p>
-      <form @submit="login">
-        이메일(ID) <input name="email" type="email" v-model="email" placeholder="이메일"><br>
-        비밀번호 <input name="password" type="password" v-model="password" placeholder="비밀번호"><br>
-        <input type="submit" value="Login" class="btn-primary btn">
-      </form>
-    </p>
+    <h3>로그인</h3><br><br>
+    <form @submit="login">
+      <div class="input-wrapper">
+      <div class="label">이메일(ID)</div>
+      <input class="input-text" name="email" type="email" v-model="email" placeholder="이메일">
+      </div>
+      <div class="input-wrapper">
+      <div class="label">비밀번호</div>
+      <input class="input-text" name="password" type="password" v-model="password" placeholder="비밀번호">
+      </div>
+      <div>
+        <input type="submit" value="    Login    " class="btn-primary btn">
+      </div>
+    </form>
   </div>
 </template>
 
@@ -76,16 +82,28 @@ export default {
 </script>
 
 <style scoped>
-    .header {
-        background: #333;
-        color: #fff;
-        text-align: center;
-        padding: 10px;
-    }
-
-    .header a {
-        color: #fff;
-        padding-right: 5px;
-        text-decoration: none;
-    }
+  .login {
+    display: inline-block;
+    width:400px;
+    font-family: 'Noto Sans KR', sans-serif;
+    padding: 20px 10px 30px 10px;
+    font-size: 0.9em;
+  }
+  .input-wrapper {
+    display:inline-block;
+    width:400px;
+    margin-bottom: 20px;
+  }
+  .label {
+    float:left;
+    display:inline-block;
+    padding-right: 10px;
+    text-align: right;
+    width: 100px;
+  }
+  .input-text {
+    float:left;
+    margin-right:10px;
+    width:250px;
+  }
 </style>

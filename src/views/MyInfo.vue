@@ -1,23 +1,37 @@
 <template>
   <div class="myinfo">
-    <h1>내 정보</h1>
-    <p>
-      <form>
-        이메일(ID) <input name="email" type="email" v-model="email" placeholder="이메일" readonly><br><br>
-        기존 비밀번호 <input name="password_old" type="password" v-model="password_old" placeholder="비밀번호"><br><br>
-        닉네임 <input name="name_new" type="text" v-model="name_new" placeholder="4-12자의 영문 또는 숫자"><br>
-        <button @click="checkName" @keyup="nameChange">닉네임 중복 확인</button><br><br>
-        새 비밀번호 <input @keyup="checkPasswordAvailability" name="password_new" type="password" v-model="password_new" placeholder="비밀번호"><br>
-        <span>{{password_new_message}}</span><br><br>
-        새 비밀번호 확인<input @keyup="checkPasswordConfirmity" name="password_new_confirm" type="password" v-model="password_new_confirm" placeholder="비밀번호 확인"><br>
-        <span>{{password_new_confirm_message}}</span><br><br>
+    <h3>내 정보</h3><br><br>
 
-        <button @click='updateName' class="btn-primary btn">닉네임 변경</button>
-        <button @click='updatePassword' class="btn-primary btn">비밀번호 변경</button><br>
-        회원탈퇴기능 넣기 / 샘플계정은 변경못하도록 하기
-      </form>
-    </p>
-    <span>닉네임, 이메일 중복체크, 비밀번호 유효성체크</span>
+    <form>
+      <div class="input-wrapper">
+        <div class="label">이메일(ID)</div>
+        <input class="input-text" name="email" type="email" v-model="email" placeholder="이메일" readonly>
+      </div>
+      <div class="input-wrapper" style="margin-bottom:40px;">
+        <div class="label">기존 비밀번호</div>
+        <input class="input-text" name="password_old" type="password" v-model="password_old" placeholder="기존 비밀번호">
+      </div>
+      <div class="input-wrapper">
+        <div class="label">닉네임</div>
+        <input class="input-text" name="name_new" type="text" v-model="name_new" placeholder="4-12자의 영문 또는 숫자">
+        <button class="btn btn-secondary btn-check-custom" @click="checkName" @keyup="nameChange">닉네임 중복 확인</button>
+      </div>
+      <input class="btn-primary btn" @click='updateName' type="button"  value=" 닉네임 변경 " style="margin-bottom:40px;">
+
+      <div class="input-wrapper">
+        <div class="label">새 비밀번호</div>
+      <input class="input-text" @keyup="checkPasswordAvailability" name="password_new" type="password" v-model="password_new" placeholder="새 비밀번호">
+      <div class="msg" v-bind:class="[password_new_availability ? 'text-success' : 'text-danger']">{{password_new_message}}</div>
+      </div>
+      <div class="input-wrapper">
+        <div class="label">새 비밀번호 확인</div>
+        <input class="input-text" @keyup="checkPasswordConfirmity" name="password_new_confirm" type="password" v-model="password_new_confirm" placeholder="새 비밀번호 확인">
+      <div class="msg" v-bind:class="[password_new_confirm_availability ? 'text-success' : 'text-danger']">{{password_new_confirm_message}}</div>
+      </div>
+      <input class="btn-primary btn" @click='updatePassword' type="button"  value="비밀번호 변경">
+
+      <br><br><br>샘플계정은 변경못하도록 하기
+    </form>
   </div>
 </template>
 
@@ -55,6 +69,10 @@ export default {
         if(this.password_old=='') {
           return alert('기존 비밀번호를 입력해주세요.')
         }
+        var passwordRegex = /^[A-Za-z0-9]{6,14}$/
+        if (!passwordRegex.test(this.password_old)) {
+          return alert('기존 비밀번호를 다시 확인해주세요.')
+        }
         const userUpdateRequestDto = {
           email: this.email,
           name_new: this.name_new,
@@ -75,6 +93,19 @@ export default {
         },
       updatePassword(e) {
         e.preventDefault()
+        if(!this.password_new_availability) {
+          return alert('새 비밀번호 양식이 올바르지 않습니다.')
+        }
+        if(!this.password_new_confirm_availability) {
+          return alert('새 비밀번호를 다시 확인해주세요.')
+        }
+        if(this.password_old=='') {
+          return alert('기존 비밀번호를 입력해주세요.')
+        }
+        var passwordRegex = /^[A-Za-z0-9]{6,14}$/
+        if (!passwordRegex.test(this.password_old)) {
+          return alert('기존 비밀번호를 다시 확인해주세요.')
+        }
         const userUpdateRequestDto = {
           email: this.email,
           password_old: this.password_old,
@@ -142,16 +173,47 @@ export default {
 </script>
 
 <style scoped>
-    .header {
-        background: #333;
-        color: #fff;
-        text-align: center;
-        padding: 10px;
-    }
-
-    .header a {
-        color: #fff;
-        padding-right: 5px;
-        text-decoration: none;
-    }
+  .myinfo {
+    display: inline-block;
+    max-width: 600px;
+    min-width: 400px;
+    font-family: 'Noto Sans KR', sans-serif;
+    padding: 20px 10px 30px 10px;
+    font-size: 0.9em;
+  }
+  .input-wrapper {
+    display:inline-block;
+    width:500px;
+    margin-bottom: 10px;
+  }
+  .label {
+    float:left;
+    display:inline-block;
+    padding-right: 10px;
+    text-align: right;
+    width: 110px;
+  }
+  .input-text {
+    float:left;
+    margin-right:10px;
+    width:250px;
+  }
+  .msg {
+    display:inline-block;
+    width:500px;
+    text-align:left;
+    font-size: 0.85em;
+    padding-left: 110px;
+    margin-top: -20px;
+  }
+  .msg-warning {
+    font-size: 0.85em;
+    color:rgb(187, 5, 5)
+  }
+  .btn-check-custom {
+    float:left;
+    font-size: 0.9em;
+    margin-top: -1px;
+    padding: 4px 10px 4px 10px;
+  }
 </style>
