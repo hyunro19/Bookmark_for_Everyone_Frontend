@@ -1,8 +1,7 @@
 <template>
   <div class="posts">
-    <h3> {{$route.params.sort}} 입니다 </h3>
-    <h1>Posts</h1>
-    <div v-for="(post, index) in postsListResponseDto" v-bind:key="index" v-bind:value="post">{{post}}</div>
+    <ThumbNail v-bind:posts="post" v-for="(post, idx) in postsListResponseDto" v-bind:key="idx"/>
+    <!-- <div v-for="(post, index) in postsListResponseDto" v-bind:key="index" v-bind:value="post"/> -->
   </div>
 </template>
 
@@ -11,16 +10,21 @@
 import axios from 'axios';
 import store from '../store/index.js'
 import router from '../router/index.js'
+import ThumbNail from  '../components/ThumbNail.vue'
 
 export default {
+  components: {
+    ThumbNail
+  },
   data () {
     return {
+      topics: store.getters.topics,
       postsListResponseDto : [],
     }
   },
   methods: {
     loadPosts() {
-    axios.get('http://localhost:8080/api/v1/posts_list/'+this.$route.params.sort)
+    axios.get(store.getters.server+'/api/v1/posts_list/'+this.$route.params.sort)
       .then(res => {
           console.log(res)
           this.postsListResponseDto = res.data
@@ -43,3 +47,8 @@ export default {
   router,
   }
 </script>
+<style scoped>
+  .posts {
+    padding: 20px 10px 30px 10px;
+  }
+</style>

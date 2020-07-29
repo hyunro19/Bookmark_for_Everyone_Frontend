@@ -1,41 +1,28 @@
 <template>
     <header class="header">
-        <div v-if="loggedIn" class="text-right">
-            {{userName}} 님
-            <router-link to="/myinfo">내 정보</router-link> |
-            <a href="#" @click='logout'>로그아웃</a>
+        <div v-if="loggedIn" class="top-nav">
+            <router-link to="/myinfo">{{userName}}님</router-link>|
+            <a href="#" @click='logout'> 로그아웃</a>
         </div>
-        <div v-else class="text-right">
-            <router-link to="/register">회원가입</router-link> |
-            <router-link to="/login">로그인</router-link>
+        <div v-else class="top-nav">
+            <router-link to="/register">회원가입</router-link>|
+            <router-link to="/login"> 로그인</router-link>
         </div>
-        <h1><router-link to="/">모두의 북마크</router-link></h1>
-        <div id="mid-nav">
-            <router-link to="/posts/recent">최신 북마크</router-link> |
-            <router-link to="/posts/my">나의 북마크</router-link> |
-            <router-link to="/newpost">새 북마크 작성</router-link><br>
-            <router-link to="/posts/0">IT</router-link>
+        <router-link to="/posts/recent"><h1 class="title">모두의 북마크</h1></router-link><br>
+        <div class="mid-nav">
+            <router-link v-bind:class="[(menu_now=='recent') ? 'menu-now' : 'menu']" to="/posts/recent">최신 북마크</router-link>
+            <router-link v-if="loggedIn" v-bind:class="[(menu_now=='my') ? 'menu-now' : 'menu']" to="/posts/my">나의 북마크</router-link>
+            <router-link v-bind:class="[(this.$route.path=='/newpost') ? 'menu-now' : 'menu']" to="/newpost">새 북마크 작성</router-link><br>
+        </div>
+        <div class="btm-nav">
+            <router-link v-bind:class="[(menu_now==idx) ? 'menu-now' : 'menu']" v-for="(topic, idx) in topics" v-bind:key="idx" v-bind:to="'/posts/'+idx">{{topic}}</router-link>
+            <!-- <router-link to="/posts/0">IT</router-link>
             <router-link to="/posts/1">문화·독서</router-link>
             <router-link to="/posts/2">음악·미술</router-link>
             <router-link to="/posts/3">직장생활</router-link>
             <router-link to="/posts/4">여행</router-link>
-            <router-link to="/posts/5">기타</router-link>
+            <router-link to="/posts/5">기타</router-link> -->
         </div>
-        <!-- <p>
-          <form @submit="signUp">
-            <input name="name" type="text" v-model="name" >
-            <input name="email" type="email" v-model="email">
-            <input name="password" type="password" v-model="password">
-            <input type="submit" value="signup" class="btn">
-          </form>
-        </p>
-        <p>
-          <form @submit="login">
-            <input name="email" type="email" v-model="email">
-            <input name="password" type="password" v-model="password">
-            <input type="submit" value="login" class="btn">
-          </form>
-        </p> -->
     </header>
 </template>
 
@@ -48,7 +35,8 @@ export default {
     name: "Header",
     data () {
       return {
-
+        topics: store.getters.topics,
+        menu_now: this.$route.params.sort,
       }
     },
     computed: {
@@ -67,7 +55,7 @@ export default {
         if (this.$route.path !== "/") this.$router.push("/")
       },
       getUserInfo() {
-        axios.get('http://localhost:8080/api/v1/user')
+        axios.get(store.getters.server+'/api/v1/user')
         .then(res => {
           console.log('getUserInfo at Header.vue, get response : ', res)
           var user = {
@@ -90,23 +78,97 @@ export default {
         this.getUserInfo()
       }
     },
-    updated() {
-      console.log('Header.vue updated')
-    }
+    watch: {
+      '$route' () {
+      console.log('watcher@header')
+      console.log(this.$route.params.sort)
+      console.log(this.$route.path)
+      this.menu_now= this.$route.params.sort
+      }
+    },
 }
 </script>
 
 <style scoped>
-    .header {
-        background: #333;
-        color: #fff;
-        text-align: center;
-        padding: 10px;
-    }
+body {
+  min-width:400px;
+}
+  .header {
+    min-width: 400px;
+    background: #333;
+    color: #EEE;
+    text-align: center;
+    padding: 10px;
+  }
+  .top-nav > a {
+    color: #EEE;
+    padding-right: 5px;
+    text-decoration: none;
+  }
 
-    .header a {
-        color: #fff;
-        padding-right: 5px;
-        text-decoration: none;
-    }
+  .top-nav {
+    font-family: 'Noto Sans KR', sans-serif;
+    text-align: center;
+    font-size:0.9em;
+    text-align:right;
+    color: #EEE;
+    /* padding-right: 5px; */
+    text-decoration: none;
+  }
+  .title {
+    font-family: 'Gugi', cursive;
+    font-size: 4em;
+    margin: 0 0 15px 0;
+    color: #EEE;
+    text-decoration: none;
+    display:inline-block;
+    position:relative;
+  }
+  .mid-nav {
+    margin-top: 5px;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-align: center;
+  }
+  .mid-nav > a, .btm-nav > a {
+    padding: 5px 10px 6px 10px;
+    margin: 0 3px 0 3px;
+  }
+  .btm-nav {
+    font-family: 'Noto Sans KR', sans-serif;
+    padding: 0px 10px 0px 10px;
+    text-align: center;
+    margin: 5px 0 0 0;
+  }
+
+  .menu {
+    display: inline-block;
+    overflow: hidden;
+    margin: 0 2px;
+    padding: 7px 7px 6px;
+    border: 1px solid #EEE;
+    border-radius: 5px;
+    font-size: 15px;
+    line-height: 18px;
+    color: #EEE;
+    text-decoration: none;
+  }
+  .menu:hover {
+    font-weight: bold;
+    text-decoration: none;
+  }
+  .menu-now {
+    color: rgb(62, 62, 62);
+    margin-top: 10px;
+    display: inline-block;
+    overflow: hidden;
+    margin: 0 2px;
+    padding: 7px 7px 6px;
+    border: 1px solid #EEE;
+    border-radius: 5px;
+    background-color: #EEE;
+    font-size: 15px;
+    line-height: 18px;
+    text-decoration: none;
+    font-weight:bold;
+  }
 </style>

@@ -60,7 +60,7 @@ export default {
           name_new: this.name_new,
           password_old: this.password_old,
         }
-        axios.put('http://localhost:8080/api/v1/user',
+        axios.put(store.getters.server+'/api/v1/user',
           userUpdateRequestDto
           )
           .then(res => {
@@ -80,7 +80,7 @@ export default {
           password_old: this.password_old,
           password_new: this.password_new,
         }
-        axios.put('http://localhost:8080/api/v1/user',
+        axios.put(store.getters.server+'/api/v1/user',
           userUpdateRequestDto
           )
           .then(res => {
@@ -100,7 +100,7 @@ export default {
           return alert('닉네임 형식이 올바르지 않습니다.\n4-12자의 영문 또는 숫자만 사용가능합니다.')
         }
 
-        axios.get('http://localhost:8080/api/v1/user/if_exists?name='+this.name)
+        axios.get(store.getters.server+'/api/v1/user/if_exists?name='+this.name)
         .then(res => {
           if(res.data==false) {
             this.name_new_availability = true;

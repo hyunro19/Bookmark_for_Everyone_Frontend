@@ -9,10 +9,18 @@ const resourceHost = 'http://localhost:3000'
 // http://jeonghwan-kim.github.io/2018/03/26/vue-authentication.html
 export default new Vuex.Store({
   state: {
+    server: 'http://localhost:8011',
     authorization: null,
     user: null,
+    topics: ['IT 트랜드', '문화·독서', '음악·미술', '직장생활', '여행','기타'],
   },
   getters: {
+    server(state) {
+      return state.server
+    },
+    topics(state) {
+      return state.topics
+    },
     authorization(state) {
       return state.authorization
     },

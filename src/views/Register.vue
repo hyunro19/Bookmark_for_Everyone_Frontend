@@ -40,7 +40,7 @@ export default {
     },
     methods: {
       getUserInfo() {
-        axios.get('http://localhost:8080/api/v1/user')
+        axios.get(store.getters.server+'/api/v1/user')
         .then(res => {
           console.log('getUserInfo at Login.vue, get response : ', res)
           var user = {
@@ -67,7 +67,7 @@ export default {
           password: this.password,
           name: this.name,
         }
-        axios.post('http://localhost:8080/api/v1/user', userSaveRequestDto)
+        axios.post(store.getters.server+'/api/v1/user', userSaveRequestDto)
           .then(res => {
             var token = res.headers.authorization
             if(res.data.logged) {
@@ -89,7 +89,7 @@ export default {
             alert('이메일 형식이 올바르지 않습니다.')
             return
           }
-          axios.get('http://localhost:8080/api/v1/user/if_exists?email='+this.email)
+          axios.get(store.getters.server+'/api/v1/user/if_exists?email='+this.email)
           .then(res => {
             if(res.data==false) {
               this.email_availability = true;
@@ -108,7 +108,7 @@ export default {
             return
           }
 
-          axios.get('http://localhost:8080/api/v1/user/if_exists?name='+this.name)
+          axios.get(store.getters.server+'/api/v1/user/if_exists?name='+this.name)
           .then(res => {
             if(res.data==false) {
               this.name_availability = true;

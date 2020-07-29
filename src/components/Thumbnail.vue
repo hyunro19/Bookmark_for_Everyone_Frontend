@@ -1,9 +1,11 @@
 <template>
+  <a v-bind:href=posts.src_url target="_sub">
     <div class="thumbnail-wrapper">
       <!-- <div>{{posts.user_id}}</div> -->
       <div class="content-wrapper">
+
         <div class="topic-writer-wrapper">
-          <span class="topic"> [ {{this.topics[parseInt(posts.topic)]}} ] </span>
+          <span class="topic"> [ {{this.topics[parseInt(posts.topic)]==null? '주제':this.topics[parseInt(posts.topic)]}} ] </span>
           <span class="writer-wrapper">
             <span class="writer-label">by </span>
             <span class="writer"> {{posts.user_name}}</span>
@@ -17,14 +19,19 @@
         <img class="src-img" v-bind:src=posts.src_img>
       </div>
     </div>
+  </a>
 </template>
 
 <script>
+import axios from 'axios'
+import store from '../store/index.js'
+import router from '../router/index.js'
+
 export default {
     name: "ThumbNail",
     data() {
       return {
-        topics: ['IT 트랜드', '문화·독서', '음악·미술', '직장생활', '여행','기타'],
+        topics: store.getters.topics,
       }
     },
     props: ["posts"],
@@ -36,12 +43,21 @@ export default {
 </script>
 
 <style scoped>
+  a:link { color: black; text-decoration: none;}
+  a:visited { color: black; text-decoration: none;}
+  a:hover { color: black; text-decoration: none;;}
+  /* div:link { color: red; text-decoration: none;}
+  div:visited { color: black; text-decoration: none;}
+  div:hover { color: blue; text-decoration: underline;} */
+
   .thumbnail-wrapper {
+    display:inline-block;
     position:relative;
-    margin: 20px;
+    margin: 10px 5px 10px 5px;
     width: 400px;
     height: 150px;
-    border:2px solid rgba(77, 77, 88, 0.36);
+    border: 1px solid rgba(55, 53, 47, 0.16);
+    border-radius: 10px;
   }
   .content-wrapper {
     position:relative;
@@ -62,6 +78,7 @@ export default {
   }
   .topic {
     font-style:bold;
+    color:grey;
   }
 
   .writer-wrapper {
@@ -77,16 +94,17 @@ export default {
   }
 
   .title {
-    margin-top:2px;
-    width: 100%;
-    font-size:1em;
     font-weight: bold;
+    margin-top:5px;
+    width: 100%;
+    font-size:0.9em;
     white-space:nowrap;
     overflow:hidden;
   }
   .description {
+    color:grey;
     height: 100%;
-    font-size:0.9em;
+    font-size:0.85em;
     white-space: normal;
     line-height: 1.5;
     height: 4.5em;
@@ -103,5 +121,7 @@ export default {
     margin: 0 0;
     width: 100%;
     height: 100%;
+    border: 1px solid rgba(55, 53, 47, 0);
+    border-radius: 5px;
   }
 </style>

@@ -5,7 +5,7 @@
       USER ID <input name="user_id" type="text" v-model="posts.user_id" readonly><br><br>
       닉네임 <input name="name" type="text" v-model="posts.user_name" readonly><br><br>
       주제 <select v-model="posts.topic">
-        <option disabled value="주제">주제</option>
+        <option disabled value="주제" selected>주제</option>
         <option v-for="(topic, idx) in topics" v-bind:value="idx" v-bind:key="idx">{{ topic }}</option>
       </select><br><br>
       URL <input @blur="getOG" name="src_url" type="text" v-model="posts.src_url" placeholder="URL"><br><br>
@@ -15,9 +15,6 @@
     </form>
     미리보기<br>
     <ThumbNail v-bind:posts="this.posts"/><br>
-    <!-- {{src_title}}<br>
-    {{src_description}}<br>
-    <img v-bind:src="src_img" width="200" height="200"> -->
   </div>
 </template>
 
@@ -39,11 +36,11 @@ export default {
         user_name: store.getters.user.user_name,
         topic: '주제',
         src_url: 'https://www.BookmarkForEveryone.com',
-        src_title: 'Title',
-        src_description: 'Description',
-        src_img: 'https://simpleicon.com/wp-content/uploads/bookmark.png',
+        src_title: '북마크 타이틀',
+        src_description: '북마크에 대한 간단한 설명',
+        src_img: 'https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/book_bookmark.png',
       },
-      topics: ['IT 트랜드', '문화·독서', '음악·미술', '직장생활', '여행','기타'],
+      topics: store.getters.topics,
     }
   },
   methods: {
@@ -58,7 +55,7 @@ export default {
         src_description: this.posts.src_description,
         src_img: this.posts.src_img,
       }
-      axios.post('http://localhost:8080/api/v1/posts', postsSaveRequestDto)
+      axios.post(store.getters.server+'/api/v1/posts', postsSaveRequestDto)
       .then(res => {
           console.log('uploadPosts succeed', res)
           if (this.$route.path !== "/") this.$router.push("/")
@@ -68,7 +65,7 @@ export default {
     },
     getOG(e) {
       e.preventDefault()
-      axios.get('http://localhost:8080/api/v1/posts_url?src_url='+this.posts.src_url)
+      axios.get(store.getters.server+'/api/v1/posts_url?src_url='+this.posts.src_url)
       .then(res => {
         console.log('PostsUrlResponseDto', res)
         this.posts.src_url = res.data.src_url

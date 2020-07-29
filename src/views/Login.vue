@@ -25,7 +25,7 @@ export default {
     },
     methods: {
       getUserInfo() {
-        axios.get('http://localhost:8080/api/v1/user')
+        axios.get(store.getters.server+'/api/v1/user')
         .then(res => {
           console.log('getUserInfo at Login.vue, get response : ', res)
           var user = {
@@ -50,7 +50,7 @@ export default {
           email: this.email,
           password: this.password,
         }
-        axios.post('http://localhost:8080/api/v1/login',
+        axios.post(store.getters.server+'/api/v1/login',
           UserLoginRequestDto
           )
           .then(res => {
