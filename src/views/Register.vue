@@ -83,12 +83,12 @@ export default {
             if(res.data.logged) {
               store.commit('auth', token)
               axios.defaults.headers.common['authorization'] = token;
-              this.getUserInfo()
+              store.commit('userInfo')
               alert("회원가입이 완료되었습니다.")
+              if (this.$router.path !== "/") this.$router.push("/")
             } else {
               alert("회원가입이 실패하였습니다.\n다시 시도해주세요.")
             }
-            if (this.$router.path !== "/") this.$router.push("/")
           })
           .catch(err => alert(err));
         },

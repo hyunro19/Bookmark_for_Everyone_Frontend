@@ -34,8 +34,16 @@ export default new Vuex.Store({
       localStorage.setItem("jwt_token", this.state.authorization)
       axios.defaults.headers.common['authorization'] = this.state.authorization;
     },
-    userInfo(state, payload) {
-      this.state.user = payload
+    userInfo(state) {
+      axios.get(state.server+'/api/v1/user')
+      .then(res => {
+        state.user = {
+          user_id : res.data.user_id,
+          user_name : res.data.user_name,
+          email : res.data.email,
+          }
+        })
+      .catch(err => alert(err));
     },
     logout(state) {
       state.authorization = null

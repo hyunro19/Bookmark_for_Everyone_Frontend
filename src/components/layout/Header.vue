@@ -9,19 +9,13 @@
             <router-link to="/login"> 로그인</router-link>
         </div>
         <router-link to="/posts/recent"><h1 class="title">모두의 북마크</h1></router-link><br>
-        <div class="mid-nav">
+        <div v-if="loggedIn" class="mid-nav">
             <router-link v-bind:class="[(menu_now=='recent') ? 'menu-now' : 'menu']" to="/posts/recent">최신 북마크</router-link>
-            <router-link v-if="loggedIn" v-bind:class="[(menu_now=='my') ? 'menu-now' : 'menu']" to="/posts/my">나의 북마크</router-link>
+            <router-link v-bind:class="[(menu_now=='my') ? 'menu-now' : 'menu']" to="/posts/my">나의 북마크</router-link>
             <router-link v-bind:class="[(this.$route.path=='/newpost') ? 'menu-now' : 'menu']" to="/newpost">새 북마크 작성</router-link><br>
         </div>
         <div class="btm-nav">
             <router-link v-bind:class="[(menu_now==idx) ? 'menu-now' : 'menu']" v-for="(topic, idx) in topics" v-bind:key="idx" v-bind:to="'/posts/'+idx">{{topic}}</router-link>
-            <!-- <router-link to="/posts/0">IT</router-link>
-            <router-link to="/posts/1">문화·독서</router-link>
-            <router-link to="/posts/2">음악·미술</router-link>
-            <router-link to="/posts/3">직장생활</router-link>
-            <router-link to="/posts/4">여행</router-link>
-            <router-link to="/posts/5">기타</router-link> -->
         </div>
     </header>
 </template>
@@ -37,53 +31,38 @@ export default {
       return {
         topics: store.getters.topics,
         menu_now: this.$route.params.sort,
-      }
-    },
-    computed: {
-      loggedIn() {
-        if (store.getters.authorization == null) return false
-        return true
-      },
-      userName() {
-        if (store.getters.user != null) return store.state.user.user_name
+        loggedIn: false,
+        userName: 'TEST',
       }
     },
     methods: {
+      isLoggedIn() {
+        if (store.getters.authorization==null || store.getters.authorization=='') {
+          this.loggedIn = false
+        } else {
+          this.loggedIn = true;
+          if (store.getters.user != null) this.userName = store.state.user.user_name
+        }
+      },
       logout() {
         store.commit('logout')
         this.loggedIn = false
         if (this.$route.path !== "/") this.$router.push("/")
       },
-      getUserInfo() {
-        axios.get(store.getters.server+'/api/v1/user')
-        .then(res => {
-          console.log('getUserInfo at Header.vue, get response : ', res)
-          var user = {
-            user_id : res.data.user_id,
-            user_name : res.data.user_name,
-            email : res.data.email,
-            }
-          store.commit('userInfo', user)
-          if (this.$route.path !== "/") this.$router.push("/")
-          })
-        .catch(err => alert(err));
-      }
     },
     created() {
       let token = localStorage.getItem("jwt_token")
-      // console.log('is authorization null?', token)
       if (token!=null) {
         store.commit('auth', token)
         axios.defaults.headers.common['authorization'] = token;
-        this.getUserInfo()
+        store.commit('userInfo')
       }
+      this.isLoggedIn()
     },
     watch: {
       '$route' () {
-      console.log('watcher@header')
-      console.log(this.$route.params.sort)
-      console.log(this.$route.path)
       this.menu_now= this.$route.params.sort
+      this.isLoggedIn()
       }
     },
 }

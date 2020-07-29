@@ -30,20 +30,6 @@ export default {
         }
     },
     methods: {
-      getUserInfo() {
-        axios.get(store.getters.server+'/api/v1/user')
-        .then(res => {
-          console.log('getUserInfo at Login.vue, get response : ', res)
-          var user = {
-            user_id : res.data.user_id,
-            user_name : res.data.user_name,
-            email : res.data.email,
-            }
-          store.commit('userInfo', user)
-          if (this.$route.path !== "/") this.$router.push("/")
-          })
-        .catch(err => alert(err));
-      },
       login(e) {
         e.preventDefault();
         if(this.email==null || this.email=='') {
@@ -65,7 +51,8 @@ export default {
             if(res.data.logged) {
               store.commit('auth', token)
               axios.defaults.headers.common['authorization'] = token;
-              this.getUserInfo()
+              store.commit('userInfo')
+              if (this.$router.path !== "/") this.$router.push("/")
             } else {
               alert('이메일 또는 비밀번호가 틀렸습니다.')
               this.email = ''
@@ -74,7 +61,6 @@ export default {
           })
           .catch(err => alert(err));
         },
-
     },
     store,
     router,
