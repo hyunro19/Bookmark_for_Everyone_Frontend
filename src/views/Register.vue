@@ -61,7 +61,7 @@ export default {
           store.commit('userInfo', user)
           if (this.$route.path !== "/") this.$router.push("/")
           })
-        .catch(err => alert(err));
+        .catch(err => console.log(err));
       },
       register(e) {
         e.preventDefault();
@@ -108,7 +108,7 @@ export default {
               alert('이미 사용 중인 이메일입니다.')
             }
           })
-          .catch(err => alert(err));
+          .catch(err => console.log(err));
         },
         checkName(e) {
           e.preventDefault();
@@ -127,7 +127,7 @@ export default {
               alert('이미 사용 중인 닉네임입니다.')
             }
           })
-          .catch(err => alert(err));
+          .catch(err => console.log(err));
         },
         checkPasswordAvailability() {
           this.password_confirm = ''

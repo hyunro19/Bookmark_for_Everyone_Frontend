@@ -59,7 +59,7 @@ export default {
               this.password = ''
             }
           })
-          .catch(err => alert(err));
+          .catch(err => console.log(err));
         },
     },
     store,

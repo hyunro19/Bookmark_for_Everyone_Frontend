@@ -70,7 +70,7 @@ export default {
 
 <style scoped>
 body {
-  min-width:400px;
+  min-width:430px;
 }
   .header {
     min-width: 400px;

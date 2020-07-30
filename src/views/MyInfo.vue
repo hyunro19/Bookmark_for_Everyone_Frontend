@@ -118,7 +118,7 @@ export default {
             location.reload()
             alert('비밀번호가 변경되었습니다.')
           })
-          .catch(err => alert(err));
+          .catch(err => console.log(err));
         },
       checkName(e) {
         e.preventDefault();
@@ -140,7 +140,7 @@ export default {
             alert('이미 사용 중인 닉네임입니다.')
           }
         })
-        .catch(err => alert(err));
+        .catch(err => console.log(err));
       },
       nameChange() {
         this.name_new_availability = false;

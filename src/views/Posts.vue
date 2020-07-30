@@ -26,20 +26,17 @@ export default {
     loadPosts() {
     axios.get(store.getters.server+'/api/v1/posts_list/'+this.$route.params.sort)
       .then(res => {
-          console.log(res)
           this.postsListResponseDto = res.data
         }
       )
-      .catch(err => alert(err));
+      .catch(err => console.log(err));
     },
   },
   created () {
-    console.log('created')
     this.loadPosts()
   },
   watch: {
     '$route' () {
-    console.log('watcher')
       this.loadPosts()
     }
   },

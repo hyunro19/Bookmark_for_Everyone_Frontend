@@ -43,13 +43,12 @@ export default new Vuex.Store({
           email : res.data.email,
           }
         })
-      .catch(err => alert(err));
+      .catch(err => console.log(err));
     },
     logout(state) {
       state.authorization = null
       state.user = null
       localStorage.removeItem("jwt_token")
-      alert('mutations logout token', state.authorization)
       axios.defaults.headers.common['authorization'] = null;
     },
   },
