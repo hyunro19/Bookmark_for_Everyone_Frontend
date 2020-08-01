@@ -29,8 +29,6 @@
       <div class="msg" v-bind:class="[password_new_confirm_availability ? 'text-success' : 'text-danger']">{{password_new_confirm_message}}</div>
       </div>
       <input class="btn-primary btn" @click='updatePassword' type="button"  value="비밀번호 변경">
-
-      <br><br><br>샘플계정은 변경못하도록 하기
     </form>
   </div>
 </template>
@@ -78,11 +76,11 @@ export default {
           name_new: this.name_new,
           password_old: this.password_old,
         }
+        if(this.name_old=="TEST") return alert('TEST계정의 닉네임은 변경할 수 없습니다.')
         axios.put(store.getters.server+'/api/v1/user',
           userUpdateRequestDto
           )
           .then(res => {
-            console.log('updateName response : ', res)
             location.reload()
             alert('닉네임이 변경되었습니다.')
           })
@@ -104,8 +102,9 @@ export default {
         }
         var passwordRegex = /^[A-Za-z0-9]{6,14}$/
         if (!passwordRegex.test(this.password_old)) {
-          return alert('기존 비밀번호를 다시 확인해주세요.')
+          return alert('기존 비밀번호 양식이 올바르지 않습니다.')
         }
+        if(this.name_old=="TEST") return alert('TEST계정의 비밀번호는 변경할 수 없습니다.')
         const userUpdateRequestDto = {
           email: this.email,
           password_old: this.password_old,

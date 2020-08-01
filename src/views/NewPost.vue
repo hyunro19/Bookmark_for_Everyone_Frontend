@@ -47,7 +47,6 @@ export default {
     ThumbNail
   },
   data () {
-    console.log('newpost', store.getters.user)
     return {
       posts: {
         user_id: store.getters.user.user_id,
@@ -67,7 +66,7 @@ export default {
   methods: {
     uploadPosts(e) {
       e.preventDefault()
-      if(this.posts.topic=='주제' || this.posts.topic=='') {
+      if(this.posts.topic=='주제' || this.posts.topic==null) {
         return alert('주제를 선택해주세요.')
       }
       if(this.posts.src_url=='') {
@@ -90,7 +89,6 @@ export default {
       }
       axios.post(store.getters.server+'/api/v1/posts', postsSaveRequestDto)
       .then(res => {
-          console.log('uploadPosts succeed', res)
           if (this.$route.path !== "/") this.$router.push("/")
         }
       )
@@ -100,12 +98,10 @@ export default {
       e.preventDefault()
       axios.get(store.getters.server+'/api/v1/posts_url?src_url='+this.posts.src_url)
       .then(res => {
-        console.log('PostsUrlResponseDto', res)
         this.posts.src_url = res.data.src_url
         this.posts.src_title = res.data.src_title
         this.posts.src_description = res.data.src_description
         this.posts.src_img = res.data.src_img
-        console.log(this.posts)
       })
       .catch(err => {
         console.log(err)

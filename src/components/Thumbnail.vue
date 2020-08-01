@@ -18,7 +18,7 @@
       </div>
       <div class="img-wrapper">
         <img class="src-img" v-bind:src=posts.src_img>
-        <img v-if="isMy" class="delete-icon" @click='delete_posts' src="/src/assets/delete-icon.png">
+        <img v-if="isMy" class="delete-icon" @click='delete_posts' src="https://cdn1.iconfinder.com/data/icons/web-essentials-circle-style/48/delete-512.png">
       </div>
     </div>
   </a>
@@ -41,10 +41,10 @@ export default {
 
     methods: {
       delete_posts(e) {
-        e.preventDefault() // 뒷쪽에 있는
-        alert('삭제')
-        axios.delete(state.server+'/api/v1/posts/'+this.posts.id)
+        e.preventDefault()
+        axios.delete(store.getters.server+'/api/v1/posts/'+this.$props.posts.posts_id)
           .then(res => {
+            this.$emit('delete_posts', this.$props.posts.posts_id)
             alert('북마크가 삭제되었습니다.')
             })
           .catch(err => console.log(err));

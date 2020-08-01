@@ -1,6 +1,6 @@
 <template>
   <div class="posts">
-    <ThumbNail v-bind:posts="post" v-for="(post, idx) in postsListResponseDto" v-bind:key="idx"/>
+    <ThumbNail v-bind:posts="post" v-for="(post, idx) in postsListResponseDto" v-bind:key="idx" v-on:delete_posts="loadPosts"/>
     <!-- <div v-for="(post, index) in postsListResponseDto" v-bind:key="index" v-bind:value="post"/> -->
   </div>
 </template>
@@ -46,6 +46,8 @@ export default {
 </script>
 <style scoped>
   .posts {
-    padding: 20px 10px 30px 10px;
+    padding: 20px 5px 30px 5px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.9em;
   }
 </style>

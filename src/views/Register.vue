@@ -52,7 +52,6 @@ export default {
       getUserInfo() {
         axios.get(store.getters.server+'/api/v1/user')
         .then(res => {
-          console.log('getUserInfo at Login.vue, get response : ', res)
           var user = {
             user_id : res.data.user_id,
             user_name : res.data.user_name,

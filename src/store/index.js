@@ -9,7 +9,7 @@ const resourceHost = 'http://localhost:3000'
 // http://jeonghwan-kim.github.io/2018/03/26/vue-authentication.html
 export default new Vuex.Store({
   state: {
-    server: 'http://localhost:8011',
+    server: 'http://52.79.157.226:8011',
     authorization: null,
     user: null,
     topics: ['IT 트랜드', '문화·독서', '음악·미술', '직장생활', '여행','기타'],
@@ -43,7 +43,11 @@ export default new Vuex.Store({
           email : res.data.email,
           }
         })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err)
+        this.logout()
+        alert('세션이 만료되었습니다.\n다시 로그인해 주세요.')
+      });
     },
     logout(state) {
       state.authorization = null
@@ -52,13 +56,4 @@ export default new Vuex.Store({
       axios.defaults.headers.common['authorization'] = null;
     },
   },
-  actions: { // 비동기, 로그인은 동기여야 하므로 사용안함, 나중에 쓰기
-    // login ({commit}, {email, password}) {
-    //   return axios.post(`${resourceHost}/api/v1/user`, {name, email, password})
-    //     .then(({res}) => commit('login', data))
-    // },
-    // logout ({commit}) {
-    //   commit('logout')
-    // },
-  }
 })

@@ -4,12 +4,13 @@
     <form @submit="login">
       <div class="input-wrapper">
       <div class="label">이메일(ID)</div>
-      <input class="input-text" name="email" type="email" v-model="email" placeholder="이메일">
+      <input class="input-text" name="email" type="email" v-model="email" placeholder="test@test.test" value="test@gmail.com">
       </div>
       <div class="input-wrapper">
       <div class="label">비밀번호</div>
-      <input class="input-text" name="password" type="password" v-model="password" placeholder="비밀번호">
+      <input class="input-text" name="password" type="password" v-model="password" placeholder="password" value="password">
       </div>
+      <div class="test-msg">*test계정 이용 가능 ( test@test.test / password )</div>
       <div>
         <input type="submit" value="    Login    " class="btn-primary btn">
       </div>
@@ -46,7 +47,6 @@ export default {
           UserLoginRequestDto
           )
           .then(res => {
-            console.log('login response', res)
             var token = res.headers.authorization
             if(res.data.logged) {
               store.commit('auth', token)
@@ -91,5 +91,10 @@ export default {
     float:left;
     margin-right:10px;
     width:250px;
+  }
+  .test-msg {
+    font-size:0.9em;
+    color:grey;
+    margin-bottom:40px;
   }
 </style>

@@ -69,11 +69,11 @@ export default {
 </script>
 
 <style scoped>
-body {
-  min-width:430px;
-}
+  body {
+    min-width:420px;
+  }
   .header {
-    min-width: 400px;
+    min-width: 420px;
     background: #333;
     color: #EEE;
     text-align: center;
