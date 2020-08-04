@@ -18,7 +18,7 @@
       </div>
       <div class="img-wrapper">
         <img class="src-img" v-bind:src=posts.src_img>
-        <img v-if="isMy" class="delete-icon" @click='delete_posts' src="https://cdn1.iconfinder.com/data/icons/web-essentials-circle-style/48/delete-512.png">
+        <img v-if="isMy" class="delete-icon" @click='delete_posts' src='https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F08d715e3-7bbd-4fb7-87d6-9c6cc798600a%2Fthumnail_image_default.png'>
       </div>
     </div>
   </a>
@@ -142,6 +142,7 @@ export default {
     position:absolute;
     bottom:5px;
     width: 100%;
+    max-height: 1.6em;
   }
   .src-img {
     max-height: 100%;
